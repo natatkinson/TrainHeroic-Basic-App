@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Hello World in Backbone.js</title>
+</head>
+<body>
+  <!-- ========= -->
+  <!-- Your HTML -->
+  <!-- ========= -->
+
+  <div id="container">Loading...</div>
+  
+  
+
+  <!-- ========= -->
+  <!-- Libraries -->
+  <!-- ========= -->
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min.js" type="text/javascript"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.2/backbone-min.js" type="text/javascript"></script>
+  <!--<script src="http://cdnjs.cloudflare.com/ajax/libs/backbone-localstorage.js/1.0/backbone.localStorage-min.js" type="text/javascript"></script>  -->
+  
+  <!-- =============== -->
+  <!-- Javascript code -->
+  <!-- =============== -->
+  <script type="text/javascript">
+	   var app = {}; // create namespace for our app
+
+    var LeaderboardModel = Backbone.Model.extend({
+		
+
+    });
+    
+    var LeaderboardCollection = Backbone.Collection.extend({
+	    url: 'https://apis.trainheroic.com/public/leaderboard/468425',
+		parse: function(data){
+			return data.results;
+		}
+    })
+    
+    var LB = new LeaderboardCollection();
+    LB.fetch().then(function(){
+	    console.log(LB.length);
+	    var tank = LB.at(1);
+	    console.log(tank);
+	    LB.each(function(LB){
+		   console.log(LB); 
+	    });
+	    /*
+	    this.each(function(data){
+		    console.log(data);
+	    })
+	    */
+		//var fname = LB.get(1)('userFirstName');
+	    //console.log(fname);
+    })
+	  
+	  
+    var AppView = Backbone.View.extend({
+      el: $('#container'),
+      // template which has the placeholder 'who' to be substitute later
+      template: _.template("<h3>Hello <%= who %></h3>"),
+      initialize: function(){
+        this.render();
+      },
+      render: function(){
+        // render the function using substituting the varible 'who' for 'world!'.
+        this.$el.html(this.template({who: 'Chap!'}));
+        //***Try putting your name instead of world.
+      }
+    });
+
+    var appView = new AppView();
+  </script>
+  
+</body>
+</html>
